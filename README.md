@@ -7,7 +7,6 @@ A modern, responsive Song Lyrics Finder App built with React, Vite, and Tailwind
 - **🎯 Smart Search**: Search for songs by artist name and title with intelligent suggestions
 - **📝 Complete Lyrics**: Get full lyrics with proper formatting and structure
 - **👤 Artist Information**: Detailed artist bios, background info, and Wikipedia integration
-- **🌙 Dark/Light Theme**: Beautiful theme toggle with system preference detection
 - **📱 Responsive Design**: Optimized for desktop, tablet, and mobile devices
 - **🔗 Dynamic Routing**: Clean URLs with `/lyrics/:artist/:title` structure
 - **📋 Copy Functionality**: One-click lyrics copying to clipboard
@@ -23,7 +22,6 @@ A modern, responsive Song Lyrics Finder App built with React, Vite, and Tailwind
 - **APIs**: 
   - Lyrics.ovh API for lyrics
   - MusicBrainz API for artist information
-  - Wikipedia API for artist bios
 
 ## 🚀 Getting Started
 
@@ -65,13 +63,10 @@ src/
 │   ├── SearchBar.jsx    # Search input with suggestions
 │   ├── LyricsDisplay.jsx # Lyrics display with copy functionality
 │   ├── ArtistInfo.jsx   # Artist information and bio
-│   └── ThemeToggle.jsx  # Dark/light theme toggle
 ├── pages/              # Page components
 │   ├── HomePage.jsx    # Landing page with search
 │   ├── LyricsPage.jsx  # Lyrics and artist info display
 │   └── NotFoundPage.jsx # 404 error page
-├── context/            # React Context providers
-│   └── ThemeContext.jsx # Theme management
 ├── utils/              # Utility functions
 │   └── api.js          # API integration functions
 ├── App.jsx             # Main app component with routing
@@ -96,7 +91,6 @@ src/
 ### Artist Information
 - Basic artist details (type, country, gender)
 - Genre tags and active dates
-- Wikipedia biography integration
 - Expandable/collapsible bio sections
 
 ### Theme System
@@ -117,10 +111,6 @@ src/
 - Genre tags and metadata
 - Wikipedia relation detection
 
-### Wikipedia API
-- Artist biography extraction
-- Thumbnail images
-- Direct links to full articles
 
 ## 📱 Responsive Design
 
@@ -176,7 +166,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - [Lyrics.ovh](https://lyrics.ovh/) for providing the lyrics API
 - [MusicBrainz](https://musicbrainz.org/) for artist information
-- [Wikipedia](https://www.wikipedia.org/) for artist biographies
 - [Tailwind CSS](https://tailwindcss.com/) for the amazing styling framework
 - [React](https://reactjs.org/) for the powerful UI library
 
@@ -189,4 +178,4 @@ If you encounter any issues or have questions, please:
 
 ---
 
-Made with ❤️ by [Your Name]
+Made with ❤️ by [Akash Jain]

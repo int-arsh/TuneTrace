@@ -1,17 +1,40 @@
+/**
+ * SearchBar Component
+ * 
+ * This component lets users search for song lyrics by entering an artist and song title.
+ * It provides real-time suggestions as you type, and navigates to the lyrics page when you search.
+ *
+ * Features:
+ * - Two input fields: Artist and Song Title
+ * - Shows suggestions (autocomplete) as you type
+ * - Handles loading and error states for suggestions
+ * - Navigates to the lyrics page on submit or suggestion click
+ * - Closes suggestions when clicking outside
+ *
+ * Usage:
+ * <SearchBar />
+ */
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { searchSongs } from '../utils/api';
 
 const SearchBar = () => {
+  // State for the artist and song title input fields
   const [artist, setArtist] = useState('');
   const [title, setTitle] = useState('');
+  // Suggestions for autocomplete
   const [suggestions, setSuggestions] = useState([]);
+  // Whether to show the suggestions dropdown
   const [showSuggestions, setShowSuggestions] = useState(false);
+  // Loading and error state for suggestions
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  // React Router navigation
   const navigate = useNavigate();
+  // Ref for detecting clicks outside the search area
   const searchRef = useRef(null);
 
+  // Close suggestions dropdown when clicking outside the search area
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
@@ -23,8 +46,10 @@ const SearchBar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Fetch suggestions from the API as the user types
   useEffect(() => {
     const fetchSuggestions = async () => {
+      // If both fields are empty, clear suggestions
       if (!artist.trim() && !title.trim()) {
         setSuggestions([]);
         setShowSuggestions(false);
@@ -35,9 +60,10 @@ const SearchBar = () => {
       setError('');
 
       try {
+        // Combine artist and title for the search query
         const query = `${artist} ${title}`.trim();
         const results = await searchSongs(query);
-        setSuggestions(results.slice(0, 5)); // Limit to 5 suggestions
+        setSuggestions(results.slice(0, 5)); // Show up to 5 suggestions
         setShowSuggestions(true);
       } catch (err) {
         setError('Failed to fetch suggestions');
@@ -48,29 +74,36 @@ const SearchBar = () => {
       }
     };
 
+    // Debounce: wait 500ms after typing before fetching suggestions
     const timeoutId = setTimeout(fetchSuggestions, 500);
     return () => clearTimeout(timeoutId);
   }, [artist, title]);
 
+  // Handle form submission (when user clicks 'Search Lyrics' or presses Enter)
   const handleSubmit = (e) => {
     e.preventDefault();
     if (artist.trim() && title.trim()) {
+      // Navigate to the lyrics page for the entered artist and title
       navigate(`/lyrics/${encodeURIComponent(artist.trim())}/${encodeURIComponent(title.trim())}`);
       setShowSuggestions(false);
     }
   };
 
+  // Handle clicking a suggestion from the dropdown
   const handleSuggestionClick = (suggestion) => {
     setArtist(suggestion.artist.name);
     setTitle(suggestion.title);
+    // Navigate to the lyrics page for the selected suggestion
     navigate(`/lyrics/${encodeURIComponent(suggestion.artist.name)}/${encodeURIComponent(suggestion.title)}`);
     setShowSuggestions(false);
   };
 
   return (
+    // Main container for the search bar
     <div className="w-full max-w-2xl mx-auto" ref={searchRef}>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Artist input field */}
           <div className="relative">
             <label htmlFor="artist" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Artist
@@ -91,6 +124,7 @@ const SearchBar = () => {
             />
           </div>
           
+          {/* Song title input field */}
           <div className="relative">
             <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Song Title
@@ -112,6 +146,7 @@ const SearchBar = () => {
           </div>
         </div>
 
+        {/* Search button - only enabled if both fields are filled */}
         <button
           type="submit"
           disabled={!artist.trim() || !title.trim()}
